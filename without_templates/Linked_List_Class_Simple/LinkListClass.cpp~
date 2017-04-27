@@ -1,0 +1,71 @@
+#include<iostream>
+#include "LinkListClass.h"
+using namespace std;
+
+list::list () {
+    front = 0;
+}
+ 
+void list::insertion ( int new_data ) {
+
+    Node* new_node = new Node;
+    new_node -> data = new_data; 
+            
+    //when the list is empty
+    if (front == 0) {
+        new_node -> pointer = 0;
+        front = new_node;
+        return;
+    }
+
+    Node* curr = front;
+    Node* prev = 0;
+
+    while ( curr != 0 && curr->data < new_data) {
+        prev = curr;
+        curr = curr -> pointer;
+    }
+
+    if (curr == 0) {
+        prev -> pointer = new_node;
+        new_node -> pointer = 0;  
+    } else if (prev == 0) {
+       front = new_node;
+       new_node -> pointer = curr;
+    } else {
+       prev -> pointer = new_node;
+       new_node -> pointer = curr;
+    }
+}
+        
+void list::display() {
+
+    Node* display_point = front;
+    while ( display_point != 0){
+        cout << display_point -> data <<endl;
+        display_point = display_point -> pointer;
+    }
+}
+
+void list::deletion ( int delete_data ) {
+    Node* delete_point_prev = 0;
+    Node* delete_point_current = front;
+
+    //edge case: when deleting the 1st element
+    if ( delete_point_current -> data == delete_data ) {
+        front = (delete_point_current) -> pointer;
+        delete delete_point_current;
+        return ;
+    }
+
+
+    while ( delete_point_current != 0 && delete_point_current -> data != delete_data){
+        delete_point_prev = delete_point_current;
+        delete_point_current = delete_point_current -> pointer;
+    }
+    if (delete_point_current != 0){
+        delete_point_prev -> pointer = (delete_point_current) -> pointer;
+        delete delete_point_current;
+    }
+}
+
